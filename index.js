@@ -24,3 +24,24 @@ function getComputerChoice () {
 }
 
 console.log(getComputerChoice());
+
+// Write a function that will return 'rock, 'paper', 'scissors' as the human's move.
+  // Firstly, get the user to input a term that is 'rock, 'paper' or 'scissors'.
+  // Allow their result to be 'Rock or 'rock'. 
+
+function getHumanChoice () {
+
+  let userChoice = '';
+
+  humanChoice = prompt('Pick your move.', 'Rock, Paper or Scissors')
+  if (humanChoice === 'Rock' || humanChoice === 'rock') {
+      userChoice = 'Rock';
+    } else if (humanChoice === 'Paper' || humanChoice === 'paper') {
+      userChoice = 'Paper';
+    } else if (humanChoice === 'Scissors' || humanChoice === 'scissors') {
+      userChoice = 'Scissors';
+    }
+    return userChoice;
+  }
+
+console.log(getHumanChoice());
