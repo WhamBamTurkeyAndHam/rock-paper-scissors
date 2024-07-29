@@ -14,13 +14,13 @@ function getComputerChoice () {
 
   let computerOption = '';
 
-  let getRandom = Math.random();
+  let getRandom = Math.random().toPrecision(2);
   
-  if (getRandom >= 0 && getRandom < 0.33) {
+  if (getRandom < 0.33) {
     computerOption = 'Rock';
   } else if (getRandom >= 0.34 && getRandom < 0.66) {
     computerOption = 'Paper';
-  } else if (getRandom >= 0.67 && getRandom < 1) {
+  } else if (getRandom >= 0.67) {
     computerOption = 'Scissors';
   }
   return computerOption;
@@ -50,9 +50,10 @@ function getHumanChoice () {
   // Take both the human choice and the computer choice as arguements.
   // Compare the arguements.
   // Compare if the result is a Win, Loss or a Tie.
-  // Give one (1) point to the human or computer, and logs the result.
+  // Give one (1) point to the human or computer, and log the result.
 
   function playRound (humanChoice, computerChoice) {
+    
     let result = '';
   
     if (humanChoice === 'Rock') {
