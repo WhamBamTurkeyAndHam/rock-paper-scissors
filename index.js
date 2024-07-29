@@ -16,9 +16,9 @@ function getComputerChoice () {
 
   let getRandom = Math.random().toPrecision(2);
   
-  if (getRandom < 0.33) {
+  if (getRandom <= 0.33) {
     computerOption = 'Rock';
-  } else if (getRandom >= 0.34 && getRandom < 0.66) {
+  } else if (getRandom >= 0.34 && getRandom <= 0.66) {
     computerOption = 'Paper';
   } else if (getRandom >= 0.67) {
     computerOption = 'Scissors';
@@ -73,7 +73,7 @@ function getHumanChoice () {
       } else if (computerChoice === 'Paper') {
         result = 'You Tied.';
       } else if (computerChoice === 'Scissors') {
-        result = 'You Lose.'
+        result = 'You Lose.';
         computerScore++;
       }
     } else if (humanChoice === 'Scissors') {
@@ -84,9 +84,10 @@ function getHumanChoice () {
         result = 'You Win!';
         humanScore++;
       } else if (computerChoice === 'Scissors') {
-        result = 'You Tied.'
+        result = 'You Tied.';
       }
     }
+
     console.log(`You picked ${humanChoice}. The computer picked ${computerChoice}. ${result}`);
     return
   }
