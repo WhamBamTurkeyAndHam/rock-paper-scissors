@@ -34,12 +34,13 @@ function getHumanChoice () {
 
   let humanOption = '';
 
-  userChoice = prompt('Pick your move.', 'Rock, Paper or Scissors')
-  if (userChoice === 'Rock') {
+  userChoice = prompt('Pick your move.', 'Rock, Paper or Scissors').toUpperCase();
+
+  if (userChoice === 'ROCK') {
       humanOption = 'Rock';
-    } else if (userChoice === 'Paper') {
+    } else if (userChoice === 'PAPER') {
       humanOption = 'Paper';
-    } else if (userChoice === 'Scissors') {
+    } else if (userChoice === 'SCISSORS') {
       humanOption = 'Scissors';
     }
     return humanOption;
@@ -51,45 +52,65 @@ function getHumanChoice () {
   // Compare if the result is a Win, Loss or a Tie.
   // Give one (1) point to the human or computer, and logs the result.
 
-function playRound (humanChoice, computerChoice) {
-  let result = '';
+  function playRound (humanChoice, computerChoice) {
+    let result = '';
+  
+    if (humanChoice === 'Rock') {
+      if (computerChoice === 'Rock') {
+        result = 'You Tied.';
+      } else if (computerChoice === 'Paper') {
+        result = 'You Lose.';
+        computerScore++
+      } else if (computerChoice === 'Scissors') {
+        result = 'You Win!';
+        humanScore++
+      }
+    } else if (humanChoice === 'Paper') {
+      if (computerChoice === 'Rock') {
+        result = 'You Win!';
+        humanScore++;
+      } else if (computerChoice === 'Paper') {
+        result = 'You Tied.';
+      } else if (computerChoice === 'Scissors') {
+        result = 'You Lose.'
+        computerScore++;
+      }
+    } else if (humanChoice === 'Scissors') {
+      if (computerChoice === 'Rock') {
+        result = 'You Lose';
+        computerScore++;
+      } else if (computerChoice === 'Paper') {
+        result = 'You Win!';
+        humanScore++;
+      } else if (computerChoice === 'Scissors') {
+        result = 'You Tied.'
+      }
+    }
+    console.log(`You picked ${humanChoice}. The computer picked ${computerChoice}. ${result}`);
+    return
+  }
+  
+// Write a function that plays multiple rounds, in this case, 5.
+  // When a result is reached, a tie will do nothing to the points, or a win/lose will give the computer or human a point.
+  // Best out of 5, so keep doing this for 5 rounds, until the human has more than the computer, or vice versa.
 
-  if (humanChoice === 'Rock') {
-    if (computerChoice === 'Rock') {
-      result = 'You Tied.';
-    } else if (computerChoice === 'Paper') {
-      result = 'You Lose.';
-      ++computerScore
-    } else if (computerChoice === 'Scissors') {
-      result = 'You Win!';
-      ++humanScore
+  function playGame () {
+    
+    for (let i = 0; i < 5; i++) {
+      const computerSelection = getComputerChoice();
+      const humanSelection = getHumanChoice();
+      playRound(humanSelection, computerSelection);
+
+      console.log(`You have ${humanScore} point(s), computer has ${computerScore} point(s).`);
     }
-  } else if (humanChoice === 'Paper') {
-    if (computerChoice === 'Rock') {
-      result = 'You Win!';
-      ++humanScore
-    } else if (computerChoice === 'Paper') {
-      result = 'You Tied.';
-    } else if (computerChoice === 'Scissors') {
-      result = 'You Lose.'
-      ++computerScore
-    }
-  } else if (humanChoice === 'Scissors') {
-    if (computerChoice === 'Rock') {
-      result = 'You Lose';
-      ++computerScore
-    } else if (computerChoice === 'Paper') {
-      result = 'You Win!';
-      ++humanScore
-    } else if (computerChoice === 'Scissors') {
-      result = 'You Tied.'
+
+    if (humanScore > computerScore) {
+      console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You win!`);
+    } else if (humanScore < computerScore) {
+      console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You lose.`);
+    } else if (humanScore === computerScore) {
+      console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). Huh... a Tie.`);
     }
   }
 
-  console.log(`You picked ${humanChoice}. The computer picked ${computerChoice}. ${result}`)
-}
-
-const computerSelection = getComputerChoice();
-const humanSelection = getHumanChoice();
-
-playRound(humanSelection, computerSelection);
+  playGame();
