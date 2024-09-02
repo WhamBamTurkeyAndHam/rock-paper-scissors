@@ -2,6 +2,11 @@
 // | Play against the computer in Rock, Paper, Scissors |
 // ------------------------------------------------------
 
+// let rock = document.querySelector('#rock');
+// let paper = document.querySelector('#paper');
+// let scissors = document.querySelector('#scissors');
+let buttons = document.querySelectorAll('.buttons')
+
 let humanScore = 0
 let computerScore = 0
 
@@ -29,22 +34,47 @@ function getComputerChoice () {
 // Write a function that will return 'rock, 'paper', 'scissors' as the human's move.
   // Firstly, get the user to input a term that is 'rock, 'paper' or 'scissors'.
   // Allow their result to be 'Rock or 'rock'.
+  
+  //(New Steps || UI Update)//
+  //Add an event listener so that each button can now register as a player choice.
 
-function getHumanChoice () {
+// rock.addEventListener('click', () => {
+//   playRound('Rock', getComputerChoice());
+// });
 
-  let humanOption = '';
+// paper.addEventListener('click', () => {
+//   playRound('Paper', getComputerChoice())
+// });
 
-  userChoice = prompt('Pick your move.', 'Rock, Paper or Scissors').toUpperCase();
+// scissors.addEventListener('click', () => {
+//   playRound('Scissors', getComputerChoice())
+// });
 
-  if (userChoice === 'ROCK') {
-      humanOption = 'Rock';
-    } else if (userChoice === 'PAPER') {
-      humanOption = 'Paper';
-    } else if (userChoice === 'SCISSORS') {
-      humanOption = 'Scissors';
-    }
-    return humanOption;
-  }
+    //Condense the event listener so that each button can now register as a player choice, but within less code.
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    const buttonId = button.id;
+    playRound(buttonId, getComputerChoice())
+  });
+});
+
+//(Old Code)//
+// function getHumanChoice () {
+
+//   let humanOption = '';
+
+//   userChoice = prompt('Pick your move.', 'Rock, Paper or Scissors').toUpperCase();
+
+//   if (userChoice === 'ROCK') {
+//       humanOption = 'Rock';
+//     } else if (userChoice === 'PAPER') {
+//       humanOption = 'Paper';
+//     } else if (userChoice === 'SCISSORS') {
+//       humanOption = 'Scissors';
+//     }
+//     return humanOption;
+//   }
 
 // Write a function that will play a single round.
   // Take both the human choice and the computer choice as arguements.
@@ -96,23 +126,23 @@ function getHumanChoice () {
   // When a result is reached, a tie will do nothing to the points, or a win/lose will give the computer or human a point.
   // Best out of 5, so keep doing this for 5 rounds, until the human has more than the computer, or vice versa.
 
-  function playGame () {
+  // function playGame () {
     
-    for (let i = 0; i < 5; i++) {
-      const computerSelection = getComputerChoice();
-      const humanSelection = getHumanChoice();
-      playRound(humanSelection, computerSelection);
+  //   for (let i = 0; i < 5; i++) {
+  //     const computerSelection = getComputerChoice();
+  //     const humanSelection = getHumanChoice();
+  //     playRound(humanSelection, computerSelection);
 
-      console.log(`You have ${humanScore} point(s), computer has ${computerScore} point(s).`);
-    }
+  //     console.log(`You have ${humanScore} point(s), computer has ${computerScore} point(s).`);
+  //   }
 
-    if (humanScore > computerScore) {
-      console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You win!`);
-    } else if (humanScore < computerScore) {
-      console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You lose.`);
-    } else if (humanScore === computerScore) {
-      console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). Huh... a Tie.`);
-    }
-  }
+  //   if (humanScore > computerScore) {
+  //     console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You win!`);
+  //   } else if (humanScore < computerScore) {
+  //     console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You lose.`);
+  //   } else if (humanScore === computerScore) {
+  //     console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). Huh... a Tie.`);
+  //   }
+  // }
 
-  playGame();
+  // playGame();
