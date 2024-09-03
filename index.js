@@ -6,9 +6,11 @@
 // let paper = document.querySelector('#paper');
 // let scissors = document.querySelector('#scissors');
 let buttons = document.querySelectorAll('.buttons')
+const resetButton = document.querySelector('#js-reset-button');
+resetButton.addEventListener('click', resetGame);
 
-let humanScore = 0
-let computerScore = 0
+let humanScore = 0;
+let computerScore = 0;
 
 // Write a function that will return 'rock, 'paper', 'scissors' as the computer's move.
   // Firstly, get the computer to randomly make a move.
@@ -83,69 +85,68 @@ buttons.forEach(button => {
   // Compare if the result is a Win, Loss or a Tie.
   // Give one (1) point to the human or computer, and log the result.
 
+  function updateGameScore () {
+    const scoreTemplate = `You ${humanScore} - ${computerScore} Computer`;
+    document.querySelector('#js-score-container').textContent = scoreTemplate;
+
+    if (humanScore === 5 || computerScore === 5) {
+      endGame();
+    }
+  }
+
   function playRound (humanChoice, computerChoice) {
     
     let result = '';
   
-    if (humanChoice === 'Rock') {
-      if (computerChoice === 'Rock') {
-        result = 'You Tied.';
-      } else if (computerChoice === 'Paper') {
-        result = 'You Lose.';
-        computerScore++
-      } else if (computerChoice === 'Scissors') {
-        result = 'You Win!';
-        humanScore++
-      }
-    } else if (humanChoice === 'Paper') {
-      if (computerChoice === 'Rock') {
-        result = 'You Win!';
-        humanScore++;
-      } else if (computerChoice === 'Paper') {
-        result = 'You Tied.';
-      } else if (computerChoice === 'Scissors') {
-        result = 'You Lose.';
-        computerScore++;
-      }
-    } else if (humanChoice === 'Scissors') {
-      if (computerChoice === 'Rock') {
-        result = 'You Lose';
-        computerScore++;
-      } else if (computerChoice === 'Paper') {
-        result = 'You Win!';
-        humanScore++;
-      } else if (computerChoice === 'Scissors') {
-        result = 'You Tied.';
-      }
+    if (humanChoice === computerChoice) {
+      result = 'You Tied.';
+    } else if (humanChoice === 'Rock' && computerChoice === 'Scissors' || humanChoice === 'Paper' && computerChoice === 'Rock' || humanChoice === 'Scissors' && computerChoice === 'Paper') {
+      result = 'You Win!';
+      humanScore++
+    } else {
+      result = 'You Lose.';
+      computerScore++;
     }
 
     //Change the result so that it displays the final outcome on the page instead of in the console.
 
-    const resultTemplate = `You picked ${humanChoice}. The computer picked ${computerChoice}. ${result}`;
+    const resultTemplate = `You picked ${humanChoice}. The Computer picked ${computerChoice}. ${result}`;
     document.querySelector('#js-result-container').textContent = resultTemplate;
+    updateGameScore();
   }
   
 // Write a function that plays multiple rounds, in this case, 5.
   // When a result is reached, a tie will do nothing to the points, or a win/lose will give the computer or human a point.
   // Best out of 5, so keep doing this for 5 rounds, until the human has more than the computer, or vice versa.
+  
+  //(New Steps || UI Update)//
+  //Constantly display the score on the page, updating it as it goes.
 
-  // function playGame () {
+  function endGame () {
+  
+    document.querySelector('#js-result-container').textContent = '';
     
-  //   for (let i = 0; i < 5; i++) {
-  //     const computerSelection = getComputerChoice();
-  //     const humanSelection = getHumanChoice();
-  //     playRound(humanSelection, computerSelection);
+    buttons.forEach(button => {
+      button.disabled = true;
+    });
+  
+  if (humanScore === 5) {
+    const youWinTemplate = `THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You win!`;
+    document.querySelector('#js-final-result-container').textContent = youWinTemplate;
+  } else {
+    const youLoseTemplate = `THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You lose.`;
+    document.querySelector('#js-final-result-container').textContent = youLoseTemplate;
+  }
+}
 
-  //     console.log(`You have ${humanScore} point(s), computer has ${computerScore} point(s).`);
-  //   }
+function resetGame () {
+  humanScore = 0;
+  computerScore = 0;
+  document.querySelector('#js-final-result-container').textContent = '';
+  document.querySelector('#js-score-container').textContent = 'You 0 - 0 Computer';
 
-  //   if (humanScore > computerScore) {
-  //     console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You win!`);
-  //   } else if (humanScore < computerScore) {
-  //     console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). You lose.`);
-  //   } else if (humanScore === computerScore) {
-  //     console.log(`THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). Huh... a Tie.`);
-  //   }
-  // }
-
-  // playGame();
+  const buttons = document.querySelectorAll(".buttons");
+  buttons.forEach(button => {
+    button.disabled = false;
+  });
+}
