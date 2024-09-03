@@ -54,8 +54,8 @@ function getComputerChoice () {
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
-    const buttonId = button.id;
-    playRound(buttonId, getComputerChoice())
+    const humanChoice = button.id;
+    playRound(humanChoice, getComputerChoice())
   });
 });
 
@@ -75,6 +75,7 @@ buttons.forEach(button => {
 //     }
 //     return humanOption;
 //   }
+//(Old Code)//
 
 // Write a function that will play a single round.
   // Take both the human choice and the computer choice as arguements.
@@ -118,8 +119,10 @@ buttons.forEach(button => {
       }
     }
 
-    console.log(`You picked ${humanChoice}. The computer picked ${computerChoice}. ${result}`);
-    return
+    //Change the result so that it displays the final outcome on the page instead of in the console.
+
+    const resultTemplate = `You picked ${humanChoice}. The computer picked ${computerChoice}. ${result}`;
+    document.querySelector('#js-result-container').textContent = resultTemplate;
   }
   
 // Write a function that plays multiple rounds, in this case, 5.
