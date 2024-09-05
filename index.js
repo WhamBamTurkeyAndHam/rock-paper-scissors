@@ -2,19 +2,16 @@
 // | Play against the computer in Rock, Paper, Scissors |
 // ------------------------------------------------------
 
-let buttons = document.querySelectorAll('.buttons')
+let playerButtons = document.querySelectorAll('.playerButtons')
 const resetButton = document.querySelector('#js-reset-button');
-resetButton.addEventListener('click', resetGame);
-
 let humanScore = 0;
 let computerScore = 0;
 
 function getComputerChoice () {
-  const getRandom = Math.random().toPrecision(2);
-  return getRandom <= 0.33 ? 'Rock' : getRandom <= 0.67 ? 'Paper' : 'Scissors';
+  return Math.random() < 0.33 ? 'Rock' : Math.random() < 0.67 ? 'Paper' : 'Scissors';
 }
 
-buttons.forEach(button => {
+playerButtons.forEach(button => {
   button.addEventListener('click', () => {
     const humanChoice = button.id;
     playRound(humanChoice, getComputerChoice())
@@ -31,10 +28,6 @@ function playRound (humanChoice, computerChoice) {
   
   const resultTemplate = `You picked ${humanChoice}. The Computer picked ${computerChoice}. ${result}`;
   document.querySelector('#js-result-container').textContent = resultTemplate;
-  updateGameScore();
-}
-
-function updateGameScore () {
   const scoreTemplate = `You ${humanScore} - ${computerScore} Computer`;
   document.querySelector('#js-score-container').textContent = scoreTemplate;
 
@@ -44,23 +37,18 @@ function updateGameScore () {
 }
 
 function endGame () {
-  
-  buttons.forEach(button => {
-    button.disabled = true;
-  });
+  playerButtons.forEach(button => button.disabled = true);
 
-  const theFinalResultTemplate = `THE FINAL SCORE: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). ${humanScore > computerScore ? "You Win." : "You Lose."}`;
+  const theFinalResultTemplate = `THE FINAL RESULT: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). ${humanScore > computerScore ? "You Win." : "You Lose."}`;
   document.querySelector('#js-final-result-container').textContent = theFinalResultTemplate;
-}
 
-function resetGame () {
-  humanScore = 0;
-  computerScore = 0;
-  document.querySelector('#js-final-result-container').textContent = '';
-  document.querySelector('#js-score-container').textContent = 'You 0 - 0 Computer';
+  resetButton.addEventListener('click', () => {
+    humanScore = 0;
+    computerScore = 0;
+    document.querySelector('#js-result-container').textContent = '';
+    document.querySelector('#js-final-result-container').textContent = '';
+    document.querySelector('#js-score-container').textContent = 'You 0 - 0 Computer';
 
-  const buttons = document.querySelectorAll(".buttons");
-  buttons.forEach(button => {
-    button.disabled = false;
+    playerButtons.forEach(button => button.disabled = false);
   });
-}
+};
