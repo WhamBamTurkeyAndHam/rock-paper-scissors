@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../rock-paper-scissors/style.css">
+  <link rel="stylesheet" href="style.css">
   <script src="index.js" defer></script>
   <title>Document</title>
 </head>
 <body>
-  <button class="playerButtons" id="Rock">Rock</button>
-  <button class="playerButtons" id="Paper">Paper</button>
-  <button class="playerButtons" id="Scissors">Scissors</button>
+  <div class="playerButtonsContainer">
+    <button class="playerButtons redButton" id="rock"><img src="img/rock.png" alt="holding out two fingers from hand emoji"></button>
+    <button class="playerButtons greenButton" id="paper"><img src="img/paper.png" alt="holding out two fingers from hand emoji"></button>
+    <button class="playerButtons blueButton" id="scissors"><img src="img/scissors.png" alt="holding out two fingers from hand emoji"></button>
+  </div>
   <div id="js-result-container"></div>
   <div id="js-score-container">You 0 - 0 Computer</div>
   <div id="js-final-result-container"></div>

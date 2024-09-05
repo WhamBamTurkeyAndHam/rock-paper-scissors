@@ -13,7 +13,7 @@ function getComputerChoice () {
 
 playerButtons.forEach(button => {
   button.addEventListener('click', () => {
-    const humanChoice = button.id;
+    const humanChoice = button.id.charAt(0).toUpperCase() + button.id.slice(1);
     playRound(humanChoice, getComputerChoice())
   });
 });
@@ -38,6 +38,7 @@ function playRound (humanChoice, computerChoice) {
 
 function endGame () {
   playerButtons.forEach(button => button.disabled = true);
+  document.querySelectorAll('.playerButtons').forEach(button => button.classList.add('disabled'));
 
   const theFinalResultTemplate = `THE FINAL RESULT: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). ${humanScore > computerScore ? "You Win." : "You Lose."}`;
   document.querySelector('#js-final-result-container').textContent = theFinalResultTemplate;
@@ -50,5 +51,6 @@ function endGame () {
     document.querySelector('#js-score-container').textContent = 'You 0 - 0 Computer';
 
     playerButtons.forEach(button => button.disabled = false);
+    document.querySelectorAll('.playerButtons').forEach(button => button.classList.remove('disabled'));
   });
 };
