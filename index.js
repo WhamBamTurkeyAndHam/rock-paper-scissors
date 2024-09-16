@@ -28,7 +28,38 @@ playerButtons.forEach(button => {
   });
 });
 
-function playRound (humanChoice, computerChoice) {  
+function playRound (humanChoice, computerChoice) {
+  
+  playerButtons.forEach(button => button.disabled = true);
+  playerButtons.forEach(button => button.classList.add('noPointer'));
+
+  //Animation for elements to move up and fade out.
+  mainContainer.classList.add('fadeAndMove');
+
+  mainContainer.addEventListener('animationend', () => {
+    mainContainer.classList.add('permanentlyFaded')
+    mainContainer.classList.remove('fadeAndMove')
+
+    //Deciding which image to use.
+    const humanImage = document.querySelector(`#human-${humanChoice}`);
+    humanImage.classList.remove('hidden');
+    humanImage.classList.add('animateHuman')
+    const computerImage = document.querySelector(`#computer-${computerChoice}`);
+    computerImage.classList.remove('hidden');
+    computerImage.classList.add('animateComputer');
+
+    //Determining background color based on option picked by human or computer.
+    //Orange - #ff8000, Yellow - #ffff00, Purple - #fd63e3.
+    const gradientStops = [rockColor = '#ff8000', paperColor = '#ffff00', scissorsColor = '#fd63e3'];
+
+    const start = humanChoice === 'Rock' ? 0 : humanChoice === 'Paper' ? 1 : 2;
+    const end = computerChoice === 'Rock' ? 0 : computerChoice === 'Paper' ? 1 : 2;
+
+    const gradient = `linear-gradient(to right, ${gradientStops[start]} 35%, ${gradientStops[end]} 65%)`;
+
+    backgroundGradient.style.background = gradient;
+  });
+
   //Scoring.
   const result = humanChoice === computerChoice ? "You Tied."
               : (humanChoice === 'Rock' && computerChoice === 'Scissors' || humanChoice === 'Paper' && computerChoice === 'Rock' || humanChoice === 'Scissors' && computerChoice === 'Paper')

@@ -118,6 +118,86 @@ h1 {
   border: 5px solid lightgray;
 }
 
+/* Moving all elements and fading them out */
+.fadeAndMove {
+  animation: fade-out-and-move 0.5s ease-out;
+}
+
+@keyframes fade-out-and-move {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+.permanentlyFaded {
+  opacity: 0;
+}
+
+/* Keeping human and computer images hidden, then fade and move in when selected */
+.hidden {
+  display: none;
+}
+
+.animateOptions {
+  position: relative;
+}
+
+.humanChoices img, .computerChoices img {
+  position: absolute;
+  top: 350px;
+  width: 500px;
+  height: 500px;
+}
+
+.human-choices img:not(:first-child), .computer-choices img:not(:first-child) {
+  top: 100%;
+}
+
+.humanChoices img {
+  left: 250px;
+  transform: rotate(90deg);
+  transform: rotateY(180deg);
+}
+
+.computerChoices img {
+  right: 250px;
+}
+
+@keyframes human-fade-in-and-moves {
+  0% {
+    opacity: 0;
+    left: -200%;
+  }
+  100% {
+    opacity: 1;
+    left: 250px;
+  }
+}
+
+@keyframes computer-fade-in-and-moves {
+  0% {
+    opacity: 0;
+    right: -200%;
+  }
+  100% {
+    opacity: 1;
+    right: 250px;
+  }
+}
+
+.animateHuman {
+  animation: human-fade-in-and-moves 2s ease-out;
+}
+
+.animateComputer {
+  animation: computer-fade-in-and-moves 2s ease-out;
+}
+
 /* Footer Stuff */
 footer {
   display: flex;
