@@ -2,15 +2,18 @@
 // | Play against the computer in Rock, Paper, Scissors |
 // ------------------------------------------------------
 
-let playerButtons = document.querySelectorAll('.playerButtons');
-const resetButton = document.querySelector('#js-reset-button');
-const playerMovesBackground = document.querySelector('.playerButtonsMasterContainer')
+const backgroundGradient = document.querySelector('.backgroundGradient');
+const modal = document.querySelector('.modal')
 let overallScore = document.querySelector('#js-score-container');
+const roundResult = document.querySelector('#js-outcome-container')
 const finalResult = document.querySelector('#js-final-result-container');
 let humanResult = document.querySelector('#js-human-result-container');
 let computerResult = document.querySelector('#js-computer-result-container');
-const backgroundGradient = document.querySelector('.backgroundGradient');
 const mainContainer = document.querySelector('.mainContainer');
+const playerMovesBackground = document.querySelector('.playerButtonsMasterContainer');
+let playerButtons = document.querySelectorAll('.playerButtons');
+const resetButton = document.querySelector('.reset');
+const nextMove = document.querySelector('.nextMove');
 const leftCurtain = document.querySelector('.curtain-panel-left');
 const rightCurtain = document.querySelector('.curtain-panel-right');
 let humanScore = 0;
@@ -74,20 +77,28 @@ function playRound (humanChoice, computerChoice) {
     })
   });
 
-  //Scoring.
-  const result = humanChoice === computerChoice ? "You Tied."
-              : (humanChoice === 'Rock' && computerChoice === 'Scissors' || humanChoice === 'Paper' && computerChoice === 'Rock' || humanChoice === 'Scissors' && computerChoice === 'Paper')
-              ? "You Win."
-              : "You Lose."
-
-  result === "You Win." ? humanScore++ : computerScore += result === "You Lose." ? 1 : 0;
+  function showModal () {
+    modal.classList.remove('hidden');
   
-  //Adds text to page.
-  humanResult.textContent = humanChoice;
-  computerResult.textContent = computerChoice;
-  const scoreTemplate = `You ${humanScore} - ${computerScore} Computer`;
-  overallScore.textContent = scoreTemplate;
+    //Scoring.
+    const result = humanChoice === computerChoice ? "You Tied"
+                : (humanChoice === 'Rock' && computerChoice === 'Scissors' || humanChoice === 'Paper' && computerChoice === 'Rock' || humanChoice === 'Scissors' && computerChoice === 'Paper') ? "You Win"
+                : "You Lose"
+  
+    result === "You Win" ? humanScore++ : computerScore += result === "You Lose" ? 1 : 0;
+  
+    //Adds text to page.
+    humanResult.textContent = humanChoice;
+    computerResult.textContent = computerChoice;
+    result === "You Win" ? roundResult.innerHTML = `You <span style="color: green;"> Win</span>`
+    : result === "You Lose" ? roundResult.innerHTML = `You <span style="color: red;"> Lose</span>`
+    : roundResult.innerHTML = result;
 
+    overallScore.textContent = `${humanScore} - ${computerScore}`;
+  }
+  
+  setTimeout(showModal, 3000);
+  
   if (humanScore === 5 || computerScore === 5) {
     endGame();
   }
