@@ -9,8 +9,10 @@ let overallScore = document.querySelector('#js-score-container');
 const finalResult = document.querySelector('#js-final-result-container');
 let humanResult = document.querySelector('#js-human-result-container');
 let computerResult = document.querySelector('#js-computer-result-container');
-const backgroundGradient = document.querySelector('body');
+const backgroundGradient = document.querySelector('.backgroundGradient');
 const mainContainer = document.querySelector('.mainContainer');
+const leftCurtain = document.querySelector('.curtain-panel-left');
+const rightCurtain = document.querySelector('.curtain-panel-right');
 let humanScore = 0;
 let computerScore = 0;
 
@@ -58,6 +60,18 @@ function playRound (humanChoice, computerChoice) {
     const gradient = `linear-gradient(to right, ${gradientStops[start]} 35%, ${gradientStops[end]} 65%)`;
 
     backgroundGradient.style.background = gradient;
+
+    leftCurtain.classList.add('curtain-panel-left-move-out');
+    rightCurtain.classList.add('curtain-panel-right-move-out');
+
+    leftCurtain.addEventListener('animationend', () => {
+      leftCurtain.classList.add('curtain-panel-left-stay-out');
+      leftCurtain.classList.remove('curtain-panel-left-move-out');
+    })
+    rightCurtain.addEventListener('animationend', () => {
+      rightCurtain.classList.add('curtain-panel-right-stay-out');
+      rightCurtain.classList.remove('curtain-panel-right-move-out');
+    })
   });
 
   //Scoring.
