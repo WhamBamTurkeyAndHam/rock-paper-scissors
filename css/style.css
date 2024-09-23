@@ -41,6 +41,32 @@ h1 {
   animation: fade-in 0.5s ease-in;
 }
 
+.fade-in {
+  animation: fade-in 0.5s ease-in;
+}
+
+.fade-in-reverse {
+  animation: fade-in-reverse 0.5s ease-out;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-reverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .model-container {
   display: flex;
   justify-content: center;
@@ -115,15 +141,6 @@ h1 {
 
 .reset:hover, .nextMove:hover {
   background-position: right;
-}
-
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .mainContainer {
@@ -226,6 +243,10 @@ h1 {
   cursor: default;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .disabled {
   background-color: gray;
   border: 5px solid lightgray;
@@ -248,6 +269,10 @@ h1 {
   animation: fade-out-and-move 0.5s ease-out;
 }
 
+.fadeAndMoveReverse {
+  animation: fade-out-and-move-reverse 0.5s ease-in;
+}
+
 @keyframes fade-out-and-move {
   0% {
     opacity: 1;
@@ -256,6 +281,17 @@ h1 {
   100% {
     opacity: 0;
     transform: translateY(-100%);
+  }
+}
+
+@keyframes fade-out-and-move-reverse {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
   }
 }
 
@@ -298,6 +334,22 @@ h1 {
   right: 250px;
 }
 
+.animateHuman {
+  animation: human-fade-in-and-moves 2s ease-out;
+}
+
+.animateComputer {
+  animation: computer-fade-in-and-moves 2s ease-out;
+}
+
+.animateHumanReverse {
+  animation: human-fade-in-and-moves-reverse 2s ease-in;
+}
+
+.animateComputerReverse {
+  animation: computer-fade-in-and-moves-reverse 2s ease-in;
+}
+
 @keyframes human-fade-in-and-moves {
   0% {
     opacity: 0;
@@ -320,12 +372,26 @@ h1 {
   }
 }
 
-.animateHuman {
-  animation: human-fade-in-and-moves 2s ease-out;
+@keyframes human-fade-in-and-moves-reverse {
+  0% {
+    opacity: 1;
+    left: 250px;
+  }
+  100% {
+    opacity: 0;
+    left: -200%;
+  }
 }
 
-.animateComputer {
-  animation: computer-fade-in-and-moves 2s ease-out;
+@keyframes computer-fade-in-and-moves-reverse {
+  0% {
+    opacity: 1;
+    right: 250px;
+  }
+  100% {
+    opacity: 0;
+    right: -200%;
+  }
 }
 
 .versusContainer {
@@ -376,6 +442,14 @@ h1 {
   animation: curtain-right 1s ease-out 1s;
 }
 
+.curtain-panel-left-move-out-reverse {
+  animation: curtain-left-reverse 1s ease-in 1s;
+}
+
+.curtain-panel-right-move-out-reverse {
+  animation: curtain-right-reverse 1s ease-in 1s;
+}
+
 @keyframes curtain-left {
   0% {
     transform: translateX(0%);
@@ -391,6 +465,24 @@ h1 {
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+@keyframes curtain-left-reverse {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes curtain-right-reverse {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
   }
 }
 
