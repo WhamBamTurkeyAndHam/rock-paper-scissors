@@ -4,22 +4,20 @@
 
 const backgroundGradient = document.querySelector('.backgroundGradient');
 const modal = document.querySelector('.modal')
-let overallScore = document.querySelectorAll('.score');
+let overallScore = document.querySelectorAll('.score'); // Both modal score and main page score.
 const roundResult = document.querySelector('#js-outcome-container')
 let humanResult = document.querySelector('#js-human-result-container');
 let computerResult = document.querySelector('#js-computer-result-container');
 const mainContainer = document.querySelector('.mainContainer');
-const playerMovesBackground = document.querySelector('.playerButtonsMasterContainer');
-let playerButtons = document.querySelectorAll('.playerButtons');
-const resetButtons = document.querySelectorAll('.reset');
+let playerButtons = document.querySelectorAll('.playerButtons'); // All of the options for the player.
+const resetButtons = document.querySelectorAll('.reset'); // Both modal reset and main page reset.
 const mainPageReset = document.querySelector('#js-main-page-reset');
 const nextMove = document.querySelector('.nextMove');
 const leftCurtain = document.querySelector('.curtain-panel-left');
 const rightCurtain = document.querySelector('.curtain-panel-right');
-let animationsRemaining = 6 // Six, one for each animation. modal, curtain-panel-leftt, curtain-panel-right, mainContainer, humanImage and computerImage.
+let animationsRemaining = 6 // Six, one for each animation. modal, curtain-panel-left, curtain-panel-right, mainContainer, humanImage and computerImage.
 let humanImageSelector
 let computerImageSelector
-let isRoundInProgress = false
 let humanScore = 0;
 let computerScore = 0;
 
@@ -29,7 +27,6 @@ function updateScore() {
 
 playerButtons.forEach(button => {
   button.addEventListener('click', () => {
-    if (isRoundInProgress) return;
     const humanChoice = button.id.charAt(0).toUpperCase() + button.id.slice(1);
     playRound(humanChoice, getComputerChoice())
   });
@@ -38,17 +35,28 @@ playerButtons.forEach(button => {
 resetButtons.forEach(button => button.addEventListener('click', resetGame));
 nextMove.addEventListener('click', nextMoveGame)
 
+function enableButtons() {
+  animationsRemaining--; // Decrease the counter when an animation ends.
+  if (animationsRemaining === 0) {
+    // All animations are done, enable buttons.
+    playerButtons.forEach(button => {
+      button.disabled = false;
+      button.classList.remove('noPointer');
+    });
+    mainPageReset.disabled = false;
+    mainPageReset.classList.remove('noPointer');
+  }
+}
+
 function getComputerChoice () {
   const randomNum = Math.random()
   return randomNum < 0.33 ? 'Rock' : randomNum < 0.67 ? 'Paper' : 'Scissors';
 };
 
 function playRound (humanChoice, computerChoice) {
-  isRoundInProgress = true;
+  animationsRemaining = 6;
 
   resetRoundState();
-
-  animationsRemaining = 6;
 
   humanImageSelector = `#human-${humanChoice}`;
   computerImageSelector = `#computer-${computerChoice}`;
@@ -103,11 +111,10 @@ function playRound (humanChoice, computerChoice) {
     }, { once: true });
   }, { once: true });
 
-  //Reset function
   function resetRoundState() {
     // Reset all images to ensure they are visible and not hidden from the previous round.
     document.querySelectorAll('.animateHuman, .animateComputer').forEach(image => {
-      image.classList.add('hidden'); // Hide all images.
+      image.classList.add('hidden');
       image.classList.remove('animateHuman', 'animateComputer', 'animateHumanReverse', 'animateComputerReverse');
     });
 
@@ -118,13 +125,13 @@ function playRound (humanChoice, computerChoice) {
     mainContainer.classList.remove('fadeAndMove', 'fadeAndMoveReverse', 'permanentlyFaded');
   };
 
-  setTimeout(() => showModal(humanChoice, computerChoice), 3000); // Pass choices to showModal.
+  setTimeout(() => showModal(humanChoice, computerChoice), 3000);
 };
   
 function showModal(humanChoice, computerChoice) {
     // Ensuring modal starts visible and stays visible until the next round starts.
     modal.classList.remove('hidden', 'fade-in-reverse');
-    modal.classList.add('fade-in'); // Fade-in effect when the modal appears.
+    modal.classList.add('fade-in');
 
     const overallResult = humanChoice === computerChoice ? "You Tied"
         : (humanChoice === 'Rock' && computerChoice === 'Scissors' || humanChoice === 'Paper' && computerChoice === 'Rock' || humanChoice === 'Scissors' && computerChoice === 'Paper')
@@ -149,95 +156,70 @@ function showModal(humanChoice, computerChoice) {
     updateScore();
     
     // Check if the game is over.
-    if (humanScore === 5 || computerScore === 5) {
-      endGame();
-    } else {
-      enableButtons();
-      isRoundInProgress = false; // Reset round in progress flag.
-  }
+    if (humanScore === 5 || computerScore === 5) endGame();
 }
 
 updateScore();
- 
-function enableButtons() {
-  animationsRemaining--; // Decrease the counter when an animation ends.
-  if (animationsRemaining === 0) {
-    // All animations are done, enable buttons.
-    playerButtons.forEach(button => {
-      button.disabled = false;
-      button.classList.remove('noPointer');
-    });
-    mainPageReset.disabled = false;
-    mainPageReset.classList.remove('noPointer');
-  }
-}
 
 function nextMoveGame() {
-   if (!isRoundInProgress) {
-    setTimeout(() => {
-      // Ensure the modal fades out only when triggered by the next move.
-      modal.classList.remove('fade-in');
-      modal.classList.add('fade-in-reverse');
-      
-      modal.addEventListener('animationend', () => {
-        modal.classList.add('hidden');
-        modal.classList.remove('fade-in-reverse'); // Ensure fade-in-reverse is removed after animation.
-        enableButtons()
-      }, { once: true }); // Ensures the listener only runs once per animation cycle.
-    }, 100);
-  
-      // Animate curtains to reverse their movement.
-      leftCurtain.classList.add('curtain-panel-left-move-out-reverse');
-      rightCurtain.classList.add('curtain-panel-right-move-out-reverse');
-  
-      leftCurtain.addEventListener('animationend', () => {
-        leftCurtain.classList.remove('curtain-panel-left-stay-out');
-        leftCurtain.classList.remove('curtain-panel-left-move-out-reverse');
-        enableButtons()
-      }, { once: true });
-  
-      rightCurtain.addEventListener('animationend', () => {
-        rightCurtain.classList.remove('curtain-panel-right-stay-out');
-        rightCurtain.classList.remove('curtain-panel-right-move-out-reverse');
-        enableButtons()
-      }, { once: true });
-  
-    const humanImage = document.querySelector(humanImageSelector);
-    const computerImage = document.querySelector(computerImageSelector);
-  
-    humanImage.classList.remove('animateHuman');
-    humanImage.classList.add('animateHumanReverse');
-    computerImage.classList.remove('animateComputer');
-    computerImage.classList.add('animateComputerReverse');
-
-    // Hide images after reverse animation ends
-    humanImage.addEventListener('animationend', () => {
-      humanImage.classList.add('hidden');
-      humanImage.classList.remove('animateHumanReverse');
-      enableButtons()
-    }, { once: true });
-
-    computerImage.addEventListener('animationend', () => {
-      computerImage.classList.add('hidden');
-      computerImage.classList.remove('animateComputerReverse');
-      enableButtons()
-    }, { once: true });
+  setTimeout(() => {
+    // Ensure the modal fades out only when triggered by the next move.
+    modal.classList.remove('fade-in');
+    modal.classList.add('fade-in-reverse');
     
-    mainContainer.classList.remove('permanentlyFaded');
-    mainContainer.classList.add('fadeAndMoveReverse')
-      mainContainer.addEventListener('animationend', () => {
-        enableButtons()
-      }, { once: true });
+    modal.addEventListener('animationend', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('fade-in-reverse');
+      enableButtons()
+    }, { once: true });
+  }, 100);
+
+    // Animate curtains to reverse their movement.
+    leftCurtain.classList.add('curtain-panel-left-move-out-reverse');
+    rightCurtain.classList.add('curtain-panel-right-move-out-reverse');
+
+    leftCurtain.addEventListener('animationend', () => {
+      leftCurtain.classList.remove('curtain-panel-left-stay-out');
+      leftCurtain.classList.remove('curtain-panel-left-move-out-reverse');
+      enableButtons()
+    }, { once: true });
+
+    rightCurtain.addEventListener('animationend', () => {
+      rightCurtain.classList.remove('curtain-panel-right-stay-out');
+      rightCurtain.classList.remove('curtain-panel-right-move-out-reverse');
+      enableButtons()
+    }, { once: true });
+
+  //Select the images to ensure the classes are removed from them.
+  const humanImage = document.querySelector(humanImageSelector);
+  const computerImage = document.querySelector(computerImageSelector);
+
+  humanImage.classList.remove('animateHuman');
+  humanImage.classList.add('animateHumanReverse');
+  computerImage.classList.remove('animateComputer');
+  computerImage.classList.add('animateComputerReverse');
+
+  // Hide images after reverse animation ends
+  humanImage.addEventListener('animationend', () => {
+    humanImage.classList.add('hidden');
+    humanImage.classList.remove('animateHumanReverse');
+    enableButtons()
+  }, { once: true });
+
+  computerImage.addEventListener('animationend', () => {
+    computerImage.classList.add('hidden');
+    computerImage.classList.remove('animateComputerReverse');
+    enableButtons()
+  }, { once: true });
   
-    // Show images again after the next move starts.
-    setTimeout(() => {
-      humanImage.classList.remove('hidden');
-      computerImage.classList.remove('hidden');
-    }, 400);
-  }
+  //Animate mainContainer back in for the next round.
+  mainContainer.classList.remove('permanentlyFaded');
+  mainContainer.classList.add('fadeAndMoveReverse')
+    mainContainer.addEventListener('animationend', () => {
+    enableButtons()
+    }, { once: true });
 }
 
-//MUST WORK ON
 function resetGame () {
   //Reset Score.
   humanScore = 0;
@@ -245,37 +227,44 @@ function resetGame () {
   overallScore.forEach((overallScore) => {
     overallScore.textContent = '0 - 0';
   });
+
   //Reset Background.
   backgroundGradient.style.background = "";
   // Reset curtains to the closed position.
   leftCurtain.classList.remove('curtain-panel-left-stay-out');
   rightCurtain.classList.remove('curtain-panel-right-stay-out');
+
   //Reset images and hide all images.
   document.querySelectorAll('.animateHuman, .animateComputer').forEach(image => {
     image.classList.add('hidden');
     image.classList.remove('animateHuman', 'animateComputer', 'animateHumanReverse', 'animateComputerReverse');
   });
   mainContainer.classList.remove('fadeAndMove', 'fadeAndMoveReverse', 'permanentlyFaded');
+
   //Reset Modal.
   modal.classList.add('hidden');
   modal.classList.remove('fade-in', 'fade-in-reverse');
+
   //Reset the animations and enable the buttons so they can be selected again.
   animationsRemaining = 0;
   playerButtons.forEach(button => {
     button.disabled = false;
     button.classList.remove('noPointer');
   });
+
   //Reset all text based results.
   humanResult.innerHTML = '';
   computerResult.innerHTML = '';
   roundResult.innerHTML = '';
 
   //Ironically reset the reset button, and the next button.
+  nextMove.disabled = false;
   nextMove.classList.remove('disabled');
-  resetButtons.forEach(button => button.classList.remove('wiggle'));
-
-  // Reset round in progress flag.
-  isRoundInProgress = false;
+  resetButtons.forEach(button => {
+    button.classList.remove('wiggle');
+    button.disabled = false;
+    button.classList.remove('noPointer');
+  });
 }
 
 function endGame () {
@@ -285,11 +274,10 @@ function endGame () {
   roundResult.innerHTML = finalResult;
 
   resetButtons.forEach(button => button.classList.add('wiggle'));
+  nextMove.disabled = true;
   nextMove.classList.add('disabled');
 
-  
-  //Confetti by https://github.com/catdad/canvas-confetti
-  
+  //Confetti by catdad, see README for the link.
   function bigConfetti() {
     var count = 300;
     var scalar = 2;

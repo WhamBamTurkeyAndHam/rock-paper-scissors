@@ -9,6 +9,7 @@
   height: 100vh;
 }
 
+/* Main title */
 h1 {
   display: flex;
   justify-content: center;
@@ -50,24 +51,6 @@ h1 {
   animation: fade-in-reverse 0.5s ease-out;
 }
 
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-reverse {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
 .modal-container {
   display: flex;
   justify-content: center;
@@ -76,7 +59,7 @@ h1 {
   position: relative;
   top: 50%;
   transform: translateY(-100%);
-  background-color: rgba(0, 0, 0, 0.75); /* Adjust opacity as needed */
+  background-color: rgba(0, 0, 0, 0.75);
 }
 
 .modal-content {
@@ -156,6 +139,7 @@ h1 {
   background-position: right;
 }
 
+/* Main Content on the page */
 .mainContainer {
   position: relative;
   top: 35%;
@@ -186,15 +170,6 @@ h1 {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-@keyframes gradient-background {
-  0% {
-    background-position: left;
-  }
-  100% {
-    background-position: right;
-  }
-}
-
 .playerButtonsContainer {
   justify-content: space-around;
   gap: 100px;
@@ -205,6 +180,11 @@ h1 {
   padding: 20px;
   cursor: pointer;
   transition: ease-in-out 400ms;
+}
+
+.mainContainer > .reset {
+  margin-top: 50px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 /* Button Styling */
@@ -281,7 +261,7 @@ h1 {
   border: 5px solid lightgray;
 }
 
-/* Moving all elements and fading them out */
+/* Moving all elements in mainContainer and fading them out */
 .fadeAndMove {
   animation: fade-out-and-move 0.5s ease-out;
 }
@@ -290,45 +270,11 @@ h1 {
   animation: fade-out-and-move-reverse 0.5s ease-in;
 }
 
-@keyframes fade-out-and-move {
-  0% {
-    opacity: 1;
-    transform: translateY(-50%);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes fade-out-and-move-reverse {
-  0% {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(-50%);
-  }
-}
-
 .permanentlyFaded {
   opacity: 0;
 }
 
-.mainContainer > .reset {
-  margin-top: 50px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
 /* Keeping human and computer images hidden, then fade and move in when selected */
-.hidden {
-  display: none;
-}
-
-.animateOptions {
-  position: relative;
-}
 
 .humanChoices img, .computerChoices img {
   position: absolute;
@@ -352,6 +298,14 @@ h1 {
   right: 250px;
 }
 
+.hidden {
+  display: none;
+}
+
+.animateOptions {
+  position: relative;
+}
+
 .animateHuman {
   animation: human-fade-in-and-moves 2s ease-out;
 }
@@ -366,50 +320,6 @@ h1 {
 
 .animateComputerReverse {
   animation: computer-fade-in-and-moves-reverse 2s ease-in;
-}
-
-@keyframes human-fade-in-and-moves {
-  0% {
-    opacity: 0;
-    left: -200%;
-  }
-  100% {
-    opacity: 1;
-    left: 250px;
-  }
-}
-
-@keyframes computer-fade-in-and-moves {
-  0% {
-    opacity: 0;
-    right: -200%;
-  }
-  100% {
-    opacity: 1;
-    right: 250px;
-  }
-}
-
-@keyframes human-fade-in-and-moves-reverse {
-  0% {
-    opacity: 1;
-    left: 250px;
-  }
-  100% {
-    opacity: 0;
-    left: -200%;
-  }
-}
-
-@keyframes computer-fade-in-and-moves-reverse {
-  0% {
-    opacity: 1;
-    right: 250px;
-  }
-  100% {
-    opacity: 0;
-    right: -200%;
-  }
 }
 
 .versusContainer {
@@ -468,42 +378,6 @@ h1 {
   animation: curtain-right-reverse 1s ease-in 1s;
 }
 
-@keyframes curtain-left {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes curtain-right {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes curtain-left-reverse {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-@keyframes curtain-right-reverse {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
 .curtain-panel-left-stay-out {
   transform: translateX(-100%);
 }
@@ -552,6 +426,141 @@ footer {
   animation: wiggle 2s infinite;
 }
 
+/* Modal fade in */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-reverse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Gradient background animation */
+@keyframes gradient-background {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+/* mainContainer animations */
+@keyframes fade-out-and-move {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes fade-out-and-move-reverse {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+/* Human/Computer image fadings and movings */
+@keyframes human-fade-in-and-moves {
+  0% {
+    opacity: 0;
+    left: -200%;
+  }
+  100% {
+    opacity: 1;
+    left: 250px;
+  }
+}
+
+@keyframes computer-fade-in-and-moves {
+  0% {
+    opacity: 0;
+    right: -200%;
+  }
+  100% {
+    opacity: 1;
+    right: 250px;
+  }
+}
+
+@keyframes human-fade-in-and-moves-reverse {
+  0% {
+    opacity: 1;
+    left: 250px;
+  }
+  100% {
+    opacity: 0;
+    left: -200%;
+  }
+}
+
+@keyframes computer-fade-in-and-moves-reverse {
+  0% {
+    opacity: 1;
+    right: 250px;
+  }
+  100% {
+    opacity: 0;
+    right: -200%;
+  }
+}
+
+/* Curtain open and closing animation */
+@keyframes curtain-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes curtain-right {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes curtain-left-reverse {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes curtain-right-reverse {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Footer logo and reset button wiggle */
 @keyframes wiggle {
   0% {
     transform: rotate(0deg); 
