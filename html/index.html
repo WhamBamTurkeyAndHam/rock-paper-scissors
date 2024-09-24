@@ -8,13 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/roses-are-ff0000" rel="stylesheet">
   <script src="../js/index.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <title>Rock, Paper, Scissors - By WhamBam</title>
 </head>
 <body>
   <div class="modal hidden">
-    <div class="model-container">
-      <div class="model-content">
+    <div class="modal-container">
+      <div class="modal-content">
         <div class="individualChoices">
           <div class="humanResult">
             <div>You picked:</div>
@@ -26,13 +28,13 @@
           </div> <!--computerResult-->
         </div> <!--individualChoices-->
         <div class="finalOutcome" id="js-outcome-container"></div>
-        <div class="score" id="js-score-container">0 - 0</div>
-        <div class="modelButtons">
+        <div class="score">0 - 0</div>
+        <div class="modalButtons">
           <button class="reset">Reset</button>
           <button class="nextMove">Next Move</button>
-        </div> <!--modelButtons-->
-      </div> <!--model-content-->
-    </div> <!--model-container-->
+        </div> <!--modalButtons-->
+      </div> <!--modal-content-->
+    </div> <!--modal-container-->
   </div> <!--modal-->
     <div class="backgroundGradient">
       <div class="main-curtain">
@@ -41,13 +43,16 @@
           <h1>Rock, Paper, Scissors</h1>
           <div class="mainContainer">
             <div class="playerButtonsMasterContainer">
+              <div class="scoreContainer">
+                <div class="score outlined">0 - 0</div>
+              </div> <!--scoreContainer-->
               <div class="playerButtonsContainer">
                 <button class="playerButtons orangeButton" id="rock"><img src="../img/rock.png" alt="an emoji with it's hand balled up into a fist"></button>
                 <button class="playerButtons yellowButton" id="paper"><img src="../img/paper.png" alt="an emoji holding out all fingers from hand"></button>
                 <button class="playerButtons purpleButton" id="scissors"><img src="../img/scissors.png" alt="an emoji holding out two fingers from hand"></button>
               </div> <!--playerButtonsContainer-->
             </div> <!--playerButtonMasterContainer-->
-            <button class="reset">Reset</button>
+            <button class="reset" id="js-main-page-reset">Reset</button>
           </div> <!--mainContainer-->
           <div class="curtain-panel curtain-panel-right"></div>
         </div> <!--curtain-wrapper-->

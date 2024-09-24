@@ -12,7 +12,7 @@
 h1 {
   display: flex;
   justify-content: center;
-  font-size: 64px;
+  font-size: 108px;
   font-optical-sizing: auto;
   z-index: 3;
   background-color: white;
@@ -23,6 +23,7 @@ h1 {
   animation: gradient-background 5s infinite alternate;
   -webkit-text-stroke-width: 1.5px;
   -webkit-text-stroke-color: black;
+  margin-top: 100px;
 }
 
 /* Modal */
@@ -67,18 +68,18 @@ h1 {
   }
 }
 
-.model-container {
+.modal-container {
   display: flex;
   justify-content: center;
   width: 50%;
   height: 50%;
   position: relative;
   top: 50%;
-  transform: translateY(-110%);
+  transform: translateY(-100%);
   background-color: rgba(0, 0, 0, 0.75); /* Adjust opacity as needed */
 }
 
-.model-content {
+.modal-content {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -104,12 +105,24 @@ h1 {
   flex-basis: 400px;
 }
 
+.scoreContainer {
+  display: flex;
+  align-items: center;
+  font-size: 52px;
+}
+
+/* Score outline for the main page only */
+.outlined {
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: black;
+}
+
 .score {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 100px;
+  font-size: 72px;
   color: white;
+  font-family: 'Roses are FF0000', sans-serif;
+  padding: 20px;
 }
 
 .finalOutcome {
@@ -121,7 +134,7 @@ h1 {
   gap: 10px;
 }
 
-.modelButtons {
+.modalButtons {
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -145,7 +158,7 @@ h1 {
 
 .mainContainer {
   position: relative;
-  top: 40%;
+  top: 35%;
   transform: translateY(-50%);
   display: flex;
   justify-content: center;
@@ -155,18 +168,22 @@ h1 {
 }
 
 /* All button and background coloring */
-.playerButtonsContainer, .playerButtonsMasterContainer {
+.playerButtonsContainer,
+.playerButtonsMasterContainer {
   display: flex;
   padding: 1rem;
   border-radius: 50px;
 }
 
 .playerButtonsMasterContainer {
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
   background-image: linear-gradient(to right, #ff8000, #ffff00, #fd63e3);
   background-size: 300%;
   animation: gradient-background 5s infinite alternate;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 @keyframes gradient-background {
@@ -301,6 +318,7 @@ h1 {
 
 .mainContainer > .reset {
   margin-top: 50px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 /* Keeping human and computer images hidden, then fade and move in when selected */
@@ -528,6 +546,10 @@ footer {
 
 .footerContainer > button:hover {
   background-position: right;
+}
+
+.wiggle {
+  animation: wiggle 2s infinite;
 }
 
 @keyframes wiggle {

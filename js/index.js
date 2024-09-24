@@ -4,32 +4,28 @@
 
 const backgroundGradient = document.querySelector('.backgroundGradient');
 const modal = document.querySelector('.modal')
-let overallScore = document.querySelector('#js-score-container');
+let overallScore = document.querySelectorAll('.score');
 const roundResult = document.querySelector('#js-outcome-container')
-const finalResult = document.querySelector('#js-final-result-container');
 let humanResult = document.querySelector('#js-human-result-container');
 let computerResult = document.querySelector('#js-computer-result-container');
 const mainContainer = document.querySelector('.mainContainer');
 const playerMovesBackground = document.querySelector('.playerButtonsMasterContainer');
 let playerButtons = document.querySelectorAll('.playerButtons');
-const resetButton = document.querySelector('.reset');
+const resetButtons = document.querySelectorAll('.reset');
+const mainPageReset = document.querySelector('#js-main-page-reset');
 const nextMove = document.querySelector('.nextMove');
 const leftCurtain = document.querySelector('.curtain-panel-left');
 const rightCurtain = document.querySelector('.curtain-panel-right');
-let animationsRemaining = 6 // One for each animation. modal, curtain-panel-leftt, curtain-panel-right, mainContainer, humanImage and computerImage.
+let animationsRemaining = 6 // Six, one for each animation. modal, curtain-panel-leftt, curtain-panel-right, mainContainer, humanImage and computerImage.
 let humanImageSelector
 let computerImageSelector
 let isRoundInProgress = false
 let humanScore = 0;
 let computerScore = 0;
 
-resetButton.addEventListener('click', resetGame);
-nextMove.addEventListener('click', nextMoveGame)
-
-function getComputerChoice () {
-  const randomNum = Math.random()
-  return randomNum < 0.33 ? 'Rock' : randomNum < 0.67 ? 'Paper' : 'Scissors';
-}
+function updateScore() {
+  overallScore.forEach((overallScore) => overallScore.textContent = `${humanScore} - ${computerScore}`);
+};
 
 playerButtons.forEach(button => {
   button.addEventListener('click', () => {
@@ -39,19 +35,31 @@ playerButtons.forEach(button => {
   });
 });
 
+resetButtons.forEach(button => button.addEventListener('click', resetGame));
+nextMove.addEventListener('click', nextMoveGame)
+
+function getComputerChoice () {
+  const randomNum = Math.random()
+  return randomNum < 0.33 ? 'Rock' : randomNum < 0.67 ? 'Paper' : 'Scissors';
+};
+
 function playRound (humanChoice, computerChoice) {
   isRoundInProgress = true;
 
   resetRoundState();
 
-  animationsRemaining = 5;
+  animationsRemaining = 6;
 
   humanImageSelector = `#human-${humanChoice}`;
   computerImageSelector = `#computer-${computerChoice}`;
   
-  playerButtons.forEach(button => button.disabled = true);
-  playerButtons.forEach(button => button.classList.remove('pointer'));
-  playerButtons.forEach(button => button.classList.add('noPointer'));
+  playerButtons.forEach(button => {
+    button.disabled = true;
+    button.classList.add('noPointer');
+  });
+
+  mainPageReset.disabled = true;
+  mainPageReset.classList.add('noPointer');
 
   //Animation for elements to move up and fade out.
   mainContainer.classList.add('fadeAndMove');
@@ -95,6 +103,7 @@ function playRound (humanChoice, computerChoice) {
     }, { once: true });
   }, { once: true });
 
+  //Reset function
   function resetRoundState() {
     // Reset all images to ensure they are visible and not hidden from the previous round.
     document.querySelectorAll('.animateHuman, .animateComputer').forEach(image => {
@@ -107,10 +116,10 @@ function playRound (humanChoice, computerChoice) {
     rightCurtain.classList.remove('curtain-panel-right-stay-out');
 
     mainContainer.classList.remove('fadeAndMove', 'fadeAndMoveReverse', 'permanentlyFaded');
-  }
+  };
 
   setTimeout(() => showModal(humanChoice, computerChoice), 3000); // Pass choices to showModal.
-}
+};
   
 function showModal(humanChoice, computerChoice) {
     // Ensuring modal starts visible and stays visible until the next round starts.
@@ -137,7 +146,7 @@ function showModal(humanChoice, computerChoice) {
                           : overallResult === "You Lose" ? `You <span style="color: red;"> Lose</span>`
                           : overallResult;
 
-    overallScore.textContent = `${humanScore} - ${computerScore}`;
+    updateScore();
     
     // Check if the game is over.
     if (humanScore === 5 || computerScore === 5) {
@@ -148,6 +157,8 @@ function showModal(humanChoice, computerChoice) {
   }
 }
 
+updateScore();
+ 
 function enableButtons() {
   animationsRemaining--; // Decrease the counter when an animation ends.
   if (animationsRemaining === 0) {
@@ -155,8 +166,9 @@ function enableButtons() {
     playerButtons.forEach(button => {
       button.disabled = false;
       button.classList.remove('noPointer');
-      button.classList.add('pointer');
     });
+    mainPageReset.disabled = false;
+    mainPageReset.classList.remove('noPointer');
   }
 }
 
@@ -227,27 +239,94 @@ function nextMoveGame() {
 
 //MUST WORK ON
 function resetGame () {
+  //Reset Score.
   humanScore = 0;
   computerScore = 0;
+  overallScore.forEach((overallScore) => {
+    overallScore.textContent = '0 - 0';
+  });
+  //Reset Background.
   backgroundGradient.style.background = "";
-  humanResult.textContent = "Choose your move...";
-  computerResult.textContent = "...and they'll choose theirs.";
-  finalResult.textContent = '';
-  overallScore.textContent = 'You 0 - 0 Computer';
+  // Reset curtains to the closed position.
+  leftCurtain.classList.remove('curtain-panel-left-stay-out');
+  rightCurtain.classList.remove('curtain-panel-right-stay-out');
+  //Reset images and hide all images.
+  document.querySelectorAll('.animateHuman, .animateComputer').forEach(image => {
+    image.classList.add('hidden');
+    image.classList.remove('animateHuman', 'animateComputer', 'animateHumanReverse', 'animateComputerReverse');
+  });
+  mainContainer.classList.remove('fadeAndMove', 'fadeAndMoveReverse', 'permanentlyFaded');
+  //Reset Modal.
+  modal.classList.add('hidden');
+  modal.classList.remove('fade-in', 'fade-in-reverse');
+  //Reset the animations and enable the buttons so they can be selected again.
+  animationsRemaining = 0;
+  playerButtons.forEach(button => {
+    button.disabled = false;
+    button.classList.remove('noPointer');
+  });
+  //Reset all text based results.
+  humanResult.innerHTML = '';
+  computerResult.innerHTML = '';
+  roundResult.innerHTML = '';
 
-  playerButtons.forEach(button => button.disabled = false);
-  playerButtons.forEach(button => button.classList.remove('disabled'));
-  playerMovesBackground.classList.remove('disabled');
+  //Ironically reset the reset button, and the next button.
+  nextMove.classList.remove('disabled');
+  resetButtons.forEach(button => button.classList.remove('wiggle'));
+
+  // Reset round in progress flag.
+  isRoundInProgress = false;
 }
 
 function endGame () {
-  playerButtons.forEach(button => button.disabled = true);
-  playerButtons.forEach(button => button.classList.add('disabled'));
-  playerMovesBackground.classList.add('disabled');
+  if (humanScore > computerScore) bigConfetti();
+  const finalResult = humanScore > computerScore ? `<span style="color: green; font-size: 75px;"> You beat the computer, A.I sucks!</span>`
+                                                 : `<span style="color: red; font-size: 65px"> You lost against the computer, yikes...</span>`;
+  roundResult.innerHTML = finalResult;
 
-  const theFinalResultTemplate = `THE FINAL RESULT: You got ${humanScore} point(s), while the computer got ${computerScore} point(s). ${humanScore > computerScore ? "You Win." : "You Lose."}`;
-  finalResult.textContent = theFinalResultTemplate;
+  resetButtons.forEach(button => button.classList.add('wiggle'));
+  nextMove.classList.add('disabled');
 
-  resetButton.removeEventListener('click', resetGame);
-  resetButton.addEventListener('click', resetGame);
+  
+  //Confetti by https://github.com/catdad/canvas-confetti
+  
+  function bigConfetti() {
+    var count = 300;
+    var scalar = 2;
+    var defaults = {
+      origin: { y: 0.5 }
+    };
+    
+    function fire(particleRatio, opts) {
+      confetti({
+        scalar,
+        ...defaults,
+        ...opts,
+        particleCount: Math.floor(count * particleRatio)
+      });
+    }
+    
+    fire(0.25, {
+      spread: 60,
+      startVelocity: 55,
+    });
+    fire(0.2, {
+      spread: 80,
+    });
+    fire(0.35, {
+      spread: 120,
+      decay: 0.91,
+      scalar: 0.8
+    });
+    fire(0.1, {
+      spread: 160,
+      startVelocity: 25,
+      decay: 0.92,
+      scalar: 1.2
+    });
+    fire(0.1, {
+      spread: 180,
+      startVelocity: 45,
+    });
+  }
 }
